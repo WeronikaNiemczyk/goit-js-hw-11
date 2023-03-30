@@ -1,5 +1,3 @@
-const galleryContainer = document.querySelector('.gallery');
-
 // const properties = {
 //   webformatURL,
 //   largeImageURL,
@@ -9,21 +7,20 @@ const galleryContainer = document.querySelector('.gallery');
 //   comments,
 //   downloads,
 // };
-
+const galleryContainer = document.querySelector('.gallery');
 export const createGallery = images => {
   const markup = images
-    .map(image => {
-      const {
-        id,
-        largeImageURL,
+    .map(
+      ({
         webformatURL,
+        largeImageURL,
         tags,
         likes,
         views,
         comments,
         downloads,
-      } = image;
-      return `<div class="photo-card"><a href="${largeImageURL}">
+      }) =>
+        `<div class="photo-card"><a href="${largeImageURL}">
     <img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
     <div class="info">
       <p class="info-item">
@@ -39,11 +36,9 @@ export const createGallery = images => {
         <b>Downloads</b>"${downloads}"
       </p>
     </div>
-  </div>`;
-    })
+  </div>`
+    )
     .join('');
-  console.log('markup:', markup);
   galleryContainer.innerHTML = markup;
 };
-
-console.log(createGallery());
+// console.log('createGallery: ', createGallery());
