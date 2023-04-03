@@ -1,39 +1,34 @@
 import Notiflix from 'notiflix';
+import { createGalleryMarkup } from './gallery';
 import { fetchImages } from './fetchImages';
-import { createGallery } from './gallery';
 
-const searchForm = document.querySelector('.search-form');
-const submitButton = document.querySelector('submit');
 const galleryContainer = document.querySelector('.gallery');
-let query = '';
+const searchForm = document.querySelector('#search-form');
 
-const searchingWindow = event => {
-  query = event.target.value.trim();
-  console.log('query: ', query);
+const searchingWindow = async event => {
+  event.preventDefault();
   galleryContainer.innerHTML = '';
-  if (query === '') {
-    Notiflix.Notify.failure(
-      'The search string cannot be empty. Please specify your search query.'
-    );
-    return;
+  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
+  // console.log('searchQuery', searchQuery);
+  if (searchQuery === '') {
+    return Notiflix.Notify.failure('Search query cannot be empty');
   }
-  fetchImages(query)
-    .then(dataList => {
-      console.log('dataList', dataList);
-      if (dataList === 0) {
-        Notiflix.Notify.failure(
-          'The search string cannot be empty. Please specify your search query.'
-        );
-      } else {
-        createGallery(dataList);
-        galleryContainer.innerHTML = markup;
-      }
-    })
-    .catch(error => console.log(error))
-    .finally(() => {
-      searchForm.reset();
-    });
+
+  try {
+    const hits = await fetchImages(searchQuery);
+
+    if (hits.length === 0) {
+      return Notiflix.Notify.warning(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+    }
+
+    const cardsMarkup = createGalleryMarkup(hits);
+    galleryContainer.insertAdjacentHTML('afterend', cardsMarkup);
+  } catch (error) {
+    console.log(error);
+    Notiflix.Notify.failure('Something went wrong. Please try again later.');
+  }
 };
-console.log(searchingWindow());
 
 searchForm.addEventListener('submit', searchingWindow);
