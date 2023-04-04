@@ -9,6 +9,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 let page = 1;
 let perPage = 40;
 let totalHits;
+const totalPages = totalHits / 40;
 loadMoreBtn.style.display = 'none';
 
 const searchingWindow = async event => {
@@ -35,15 +36,15 @@ const searchingWindow = async event => {
     const cardsMarkup = createGalleryMarkup(hits);
     galleryContainer.insertAdjacentHTML('beforeend', cardsMarkup);
 
-    if (totalHits > perPage) {
-      loadMoreBtn.style.display = 'block';
-    }
-    if (totalHits <= page * perPage) {
-      loadMoreBtn.style.display = 'none';
-      Notiflix.Notify.warning(
-        "We're sorry, but you've reached the end of search results."
-      );
-    }
+    // if (totalHits > perPage) {
+    //   loadMoreBtn.style.display = 'block';
+    // }
+    // if (totalHits <= page * perPage) {
+    //   loadMoreBtn.style.display = 'none';
+    //   Notiflix.Notify.warning(
+    //     "We're sorry, but you've reached the end of search results."
+    //   );
+    // }
   } catch (error) {
     console.log(error);
     Notiflix.Notify.failure('Something went wrong. Please try again later.');
@@ -52,25 +53,41 @@ const searchingWindow = async event => {
 
 const loadMore = async () => {
   page += 1;
-  // const searchQuery = searchForm.elements.searchQuery.value.trim();
-  try {
-    const data = await fetchImages(searchQuery, page, perPage).then(
-      ({ data }) => {
-        if (data.totalHits === 0) {
-          loadMoreBtn.style.display = 'none';
+  searchQuery = searchForm.elements.searchQuery.value.trim();
+  const totalHits = await fetchImages(searchQuery, page, perPage);
 
-          return Notiflix.Notify.warning(
-            "We're sorry, but you've reached the end of search results."
-          );
-        } else {
-          const newPages = createGalleryMarkup(data.hits);
-          galleryContainer.insertAdjacentHTML('beforeend', newPages);
-        }
-      }
+  if (totalHits <= perPage * page) {
+    loadMoreBtn.style.display = 'none';
+    return Notiflix.Notify.warning(
+      "We're sorry, but you've reached the end of search results."
     );
-  } catch (error) {
-    Notiflix.Notify.warning('Sorry, error');
+  } else if (totalHits > perPage) {
+    page =+ 1;
+    loadMoreBtn.style.display = 'block';
+  } else {
+    page += 1;
+    const newPages = createGalleryMarkup(totalHits);
+    galleryContainer.insertAdjacentHTML('beforeend', newPages);
   }
+
+  // try {
+  //   const data = await fetchImages(searchQuery, page, perPage).then(
+  //     ({ data }) => {
+  //       if (data.totalHits === 0) {
+  //         loadMoreBtn.style.display = 'none';
+
+  //         return Notiflix.Notify.warning(
+  //           "We're sorry, but you've reached the end of search results."
+  //         );
+  //       } else {
+  //         const newPages = createGalleryMarkup(data.hits);
+  //         galleryContainer.insertAdjacentHTML('beforeend', newPages);
+  //       }
+  //     }
+  //   );
+  // } catch (error) {
+  //   Notiflix.Notify.warning('Sorry, error');
+  // }
   console.log(loadMore());
 };
 
