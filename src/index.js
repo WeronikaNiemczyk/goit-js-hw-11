@@ -24,7 +24,7 @@ const searchingWindow = async event => {
     }
 
     const cardsMarkup = createGalleryMarkup(hits);
-    galleryContainer.insertAdjacentHTML('afterend', cardsMarkup);
+    galleryContainer.insertAdjacentHTML('beforeend', cardsMarkup);
   } catch (error) {
     console.log(error);
     Notiflix.Notify.failure('Something went wrong. Please try again later.');

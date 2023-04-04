@@ -1,4 +1,4 @@
-export const createGalleryMarkup = (hits) => {
+export const createGalleryMarkup = hits => {
   return hits
     .map(
       ({
@@ -12,7 +12,7 @@ export const createGalleryMarkup = (hits) => {
       }) => {
         return `
         <div class="photo-card">
-          <img src="${webformatURL}" data-source="${largeImageURL}" alt="${tags}" loading="lazy" />
+          <img class= "small-photo" src="${webformatURL}" data-source="${largeImageURL}" alt="${tags}" loading="lazy" />
           <div class="info">
             <p class="info-item">
               <b>Likes:</b> ${likes}
@@ -32,4 +32,4 @@ export const createGalleryMarkup = (hits) => {
       }
     )
     .join('');
-}
+};
