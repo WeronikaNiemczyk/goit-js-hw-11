@@ -19,12 +19,10 @@ button {
   grid-template-rows: auto;
   align-items: center;
   justify-items: center;
-  
 }
 .photo-card {
   align-items: center;
   justify-items: center;
- 
 }
 .small-photo {
   width: 200px;
@@ -40,4 +38,10 @@ button {
   font-size: 12px;
   row-gap: 5px;
   column-gap: 10px;
+}
+.load-more {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
