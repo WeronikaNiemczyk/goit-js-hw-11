@@ -22,7 +22,7 @@ const searchingWindow = async event => {
     page = 1;
     initialSearchQuery = searchQuery;
   }
-  loadMoreBtn.style.display = 'block';
+  // loadMoreBtn.style.display = 'block';
 
   if (searchQuery === '') {
     loadMoreBtn.style.display = 'none';
@@ -57,9 +57,9 @@ const searchingWindow = async event => {
 
 const loadMore = async () => {
   page += 1;
-  // const searchQuery = searchForm.elements.searchQuery.value.trim();
-  const currentsearchQuery = searchForm.elements.searchQuery.value.trim();
-  if (currentsearchQuery !== initialSearchQuery) {
+  const searchQuery = searchForm.elements.searchQuery.value.trim();
+  // const currentsearchQuery = searchForm.elements.searchQuery.value.trim();
+  if (searchQuery !== initialSearchQuery) {
     page = 1;
     return Notiflix.Notify.warning(
       'Sorry, you cannot load more results for a different search query.'
