@@ -8,8 +8,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 let page = 1;
 let perPage = 40;
-let totalHits;
-const totalPages = totalHits / 40;
+// let totalHits;
 loadMoreBtn.style.display = 'none';
 
 const searchingWindow = async event => {
@@ -55,20 +54,21 @@ const loadMore = async () => {
   page += 1;
   searchQuery = searchForm.elements.searchQuery.value.trim();
   const totalHits = await fetchImages(searchQuery, page, perPage);
-
-  if (totalHits <= perPage * page) {
+  console.log({ totalHits });
+  if (totalHits <= page) {
     loadMoreBtn.style.display = 'none';
     return Notiflix.Notify.warning(
       "We're sorry, but you've reached the end of search results."
     );
-  } else if (totalHits > perPage) {
-    page =+ 1;
-    loadMoreBtn.style.display = 'block';
+    // } else if (totalHits > perPage) {
+    // page = +1;
+    // loadMoreBtn.style.display = 'block';
   } else {
-    page += 1;
+    // page += 1;
     const newPages = createGalleryMarkup(totalHits);
     galleryContainer.insertAdjacentHTML('beforeend', newPages);
   }
+  return totalHits;
 
   // try {
   //   const data = await fetchImages(searchQuery, page, perPage).then(
@@ -88,7 +88,6 @@ const loadMore = async () => {
   // } catch (error) {
   //   Notiflix.Notify.warning('Sorry, error');
   // }
-  console.log(loadMore());
 };
 
 searchForm.addEventListener('submit', searchingWindow);
