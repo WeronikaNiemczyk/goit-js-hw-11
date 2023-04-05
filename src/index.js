@@ -18,6 +18,7 @@ const searchingWindow = async event => {
   loadMoreBtn.style.display = 'block';
   page = 1;
   if (searchQuery === '') {
+    loadMoreBtn.style.display = 'none';
     return Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
@@ -27,7 +28,8 @@ const searchingWindow = async event => {
     const hits = await fetchImages(searchQuery, page, perPage);
     // const { hits, totalHits } = data;
     if (hits.length === 0) {
-      return Notiflix.Notify.warning(
+      loadMoreBtn.style.display = 'none';
+      return Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
