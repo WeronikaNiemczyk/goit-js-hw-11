@@ -55,7 +55,7 @@ const loadMore = async () => {
   searchQuery = searchForm.elements.searchQuery.value.trim();
   const totalHits = await fetchImages(searchQuery, page, perPage);
   console.log({ totalHits });
-  if (totalHits <= page) {
+  if (totalHits <= perPage) {
     loadMoreBtn.style.display = 'none';
     return Notiflix.Notify.warning(
       "We're sorry, but you've reached the end of search results."
