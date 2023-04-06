@@ -12,7 +12,7 @@ let page = 1;
 let perPage = 40;
 let searchQuery = '';
 let initialSearchQuery = '';
-// let simpleLightBox;
+let simpleLightBox;
 loadMoreBtn.style.display = 'none';
 
 const searchingWindow = async event => {
