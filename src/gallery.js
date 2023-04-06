@@ -1,3 +1,5 @@
+
+
 export const createGalleryMarkup = hits => {
   return hits
     .map(
@@ -11,8 +13,8 @@ export const createGalleryMarkup = hits => {
         downloads,
       }) => {
         return `
-        <div class="photo-card">
-          <img class= "small-photo" src="${webformatURL}" data-source="${largeImageURL}" alt="${tags}" loading="lazy" />
+        <div class="photo-card"><a class="small-photo-link" href="${largeImageURL}">
+          <img class= "small-photo" src="${webformatURL}" data-source="${largeImageURL}" alt="${tags}" loading="lazy" /></a>
           <div class="info">
             <p class="info-item">
               <b>Likes:</b> ${likes}

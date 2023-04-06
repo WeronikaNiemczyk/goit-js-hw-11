@@ -1,6 +1,8 @@
 import Notiflix from 'notiflix';
 import { createGalleryMarkup } from './gallery';
 import { fetchImages } from './fetchImages';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryContainer = document.querySelector('.gallery');
 const searchForm = document.querySelector('#search-form');
@@ -10,7 +12,7 @@ let page = 1;
 let perPage = 40;
 let searchQuery = '';
 let initialSearchQuery = '';
-// let totalHits;
+// let simpleLightBox;
 loadMoreBtn.style.display = 'none';
 
 const searchingWindow = async event => {
@@ -43,6 +45,7 @@ const searchingWindow = async event => {
     } else {
       const cardsMarkup = createGalleryMarkup(hits);
       galleryContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+      simpleLightBox = new SimpleLightbox('.gallery a').refresh();
       if (resultAmount < 40) {
         loadMoreBtn.style.display = 'none';
       } else {
@@ -67,6 +70,8 @@ const loadMore = async () => {
   }
   const totalHits = await fetchImages(searchQuery, page, perPage);
   console.log({ totalHits });
+  simpleLightBox = new SimpleLightbox('.gallery a').refresh();
+
   if (totalHits <= perPage) {
     loadMoreBtn.style.display = 'none';
     return Notiflix.Notify.warning(
